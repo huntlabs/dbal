@@ -1,13 +1,23 @@
 import std.stdio;
 
-class Sql
+class SqlSyntax
 {
 	string tableName;
+    this(){}
 
 	this(SqlBuilder builder)
 	{
 		this.tableName = builder._tableName;
 	}
+}
+
+class MysqlSyntax : SqlSyntax
+{
+
+}
+class PgsqlSyntax : SqlSyntax
+{
+
 }
 
 class SqlBuilder
@@ -24,10 +34,16 @@ class SqlBuilder
 		return this;
 	}
 
-	Sql build()
+	SqlSyntax build()
 	{
-		return new Sql(this);
+		return new SqlSyntax(this);
 	}
+}
+
+
+interface IFactory
+{
+    
 }
 
 void main()
