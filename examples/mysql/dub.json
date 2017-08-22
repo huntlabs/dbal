@@ -1,0 +1,13 @@
+{
+	"name": "example",
+	"authors": [
+		"root"
+	],
+    "dependencies": {
+        "sqlbuilder": {"path":"../../"}
+    },
+    "targetType": "executable",
+	"description": "A minimal D application.",
+	"copyright": "Copyright © 2017, root",
+	"license": "proprietary"
+}
