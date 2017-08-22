@@ -6,6 +6,5 @@ void main()
 {
 	writeln("Edit source/app.d to start your project.");
 
-    auto sql = (new SqlFactory).createMysqlBuilder
-                .tableName("test").build();
+    auto sql = (new SqlFactory).createMysqlBuilder.build();
 }
