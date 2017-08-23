@@ -1,6 +1,6 @@
-module sqlbuilder.builder;
+module dbal.builder;
 
-import sqlbuilder;
+import dbal;
 
 interface sqlBuilder
 {
@@ -41,6 +41,19 @@ interface sqlBuilder
     sqlBuilder setParameter(int index,string value);
     
     string tableName();
+    string tableNameAlias();
+    Method method();
+    string[] selectKeys();
+    string having();
+    string groupBy();
+    string orderBy();
+    string order();
+    int limit();
+    int offset();
+    string multiWhereStr();
+    WhereExpression[] whereKeys();
+    ValueExpression[string] values();
+    JoinExpression[] joins();
     
     sqlSyntax build();
 }

@@ -1,6 +1,6 @@
-module sqlbuilder.expression;
+module dbal.expression;
 
-import sqlbuilder;
+import dbal;
 
 class Expression
 {
@@ -122,32 +122,32 @@ class MultiWhereExpression : Expression
         expr = new WhereExpression(key,">=",value);
         return this;
     }
-    MultiWhereExpression le(string key,string value)
+MultiWhereExpression le(string key,string value)
+{
+    expr = new WhereExpression(key,"<=",value);
+    return this;
+}
+MultiWhereExpression like(string key,string value)
+{
+    expr = new WhereExpression(key,"like",value);
+    return this;
+}
+MultiWhereExpression andX(T...)(T args)
+{
+    _relation = Relation.And; 
+    foreach(v;args)
     {
-        expr = new WhereExpression(key,"<=",value);
-        return this;
+        childs ~= v;
     }
-    MultiWhereExpression like(string key,string value)
+    return this;
+}
+MultiWhereExpression orX(T...)(T args)
+{
+    _relation = Relation.Or; 
+    foreach(v;args)
     {
-        expr = new WhereExpression(key,"like",value);
-        return this;
+        childs ~= v;
     }
-    MultiWhereExpression andX(T...)(T args)
-    {
-        _relation = Relation.And; 
-        foreach(v;args)
-        {
-            childs ~= v;
-        }
-        return this;
-    }
-    MultiWhereExpression orX(T...)(T args)
-    {
-        _relation = Relation.Or; 
-        foreach(v;args)
-        {
-            childs ~= v;
-        }
-        return this;
-    }
+    return this;
+}
 }

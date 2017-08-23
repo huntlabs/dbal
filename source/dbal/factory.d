@@ -1,6 +1,6 @@
-module sqlbuilder.factory;
+module dbal.factory;
 
-import sqlbuilder;
+import dbal;
 
 interface IFactory
 {

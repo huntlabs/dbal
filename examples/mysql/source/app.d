@@ -1,6 +1,6 @@
 import std.stdio;
 
-import sqlbuilder;
+import dbal;
 
 void main()
 {
