@@ -29,6 +29,7 @@ class MysqlSyntax : sqlSyntax
 		string where;
 		if(_builder.whereKeys.length){
 			int i = 0;
+			where = " WHERE ";
 			foreach(v;_builder.whereKeys){
 				i++;
 				where ~= v.toString;
@@ -36,7 +37,7 @@ class MysqlSyntax : sqlSyntax
 			}
 		}
 		if (_builder.multiWhereStr.length){
-			where ~= where.length ? (" AND " ~ _builder.multiWhereStr) : _builder.multiWhereStr;
+			where ~= where.length ? (" AND " ~ _builder.multiWhereStr) : (" WHERE" ~ _builder.multiWhereStr);
 		}
 		return where;
 	}

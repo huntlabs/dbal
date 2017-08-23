@@ -27,10 +27,10 @@ class MysqlBuilder : sqlBuilder
 		_tableNameAlias = tableNameAlias.length ? tableNameAlias : tableName;
 		return this;
 	}
-	sqlBuilder select(string...)(string args)
+	sqlBuilder selectImpl(string[] args)
 	{
 		_selectKeys = null;
-		foreach(arg;args)_selectKeys ~= arg;
+		_selectKeys = args;
 		_method = Method.Select;
 		return this;
 	}
@@ -62,44 +62,9 @@ class MysqlBuilder : sqlBuilder
 		if(arr[2] == "?")_whereKeysParameters ~= expr;
 		return this;
 	}
-	sqlBuilder where(T)(string key,string op,T value)
+	sqlBuilder whereImpl(string key,CompareType type,string value)
 	{
-		_whereKeys ~= new WhereExpression(key,op,value.to!string);
-		return this;
-	}
-	sqlBuilder eq(T)(string key,T value)
-	{
-		_whereKeys ~= new WhereExpression(key,CompareType.eq,value.to!string);
-		return this;
-	}
-	sqlBuilder ne(T)(string key,T value)
-	{
-		_whereKeys ~= new WhereExpression(key,CompareType.ne,value.to!string);
-		return this;
-	}
-	sqlBuilder gt(T)(string key,T value)
-	{
-		_whereKeys ~= new WhereExpression(key,CompareType.gt,value.to!string);
-		return this;
-	}
-	sqlBuilder lt(T)(string key,T value)
-	{
-		_whereKeys ~= new WhereExpression(key,CompareType.lt,value.to!string);
-		return this;
-	}
-	sqlBuilder ge(T)(string key,T value)
-	{
-		_whereKeys ~= new WhereExpression(key,CompareType.ge,value.to!string);
-		return this;
-	}
-	sqlBuilder le(T)(string key,T value)
-	{
-		_whereKeys ~= new WhereExpression(key,CompareType.le,value.to!string);
-		return this;
-	}
-	sqlBuilder like(T)(string key,T value)
-	{
-		_whereKeys ~= new WhereExpression(key,CompareType.like,value.to!string);
+		_whereKeys ~= new WhereExpression(key,type,value);
 		return this;
 	}
 	sqlBuilder where(MultiWhereExpression expr)
@@ -195,7 +160,7 @@ class MysqlBuilder : sqlBuilder
 		}
 		return this;
 	}
-	sqlBuilder setValue(string key,string value)
+	sqlBuilder set(string key,string value)
 	{
 		auto expr = new ValueExpression(key,value);
 		_values[key] = expr;

@@ -5,19 +5,53 @@ import dbal;
 interface sqlBuilder
 {
     sqlBuilder from(string tableName,string tableNameAlias = null);
-    sqlBuilder select(string...)(string args);
+    sqlBuilder select(T...)(T args)
+	{
+		string[] arr;
+		foreach(arg;args){
+			arr ~= arg;
+		}
+		return selectImpl(arr);
+	}
+    sqlBuilder selectImpl(string[] args);
     sqlBuilder insert(string tableName);
     sqlBuilder update(string tableName);
     sqlBuilder remove(string tableName);
     sqlBuilder where(string expression);
     sqlBuilder having(string expression);
-    sqlBuilder eq(T)(string key,T value);
-    sqlBuilder ne(T)(string key,T value);
-    sqlBuilder gt(T)(string key,T value);
-    sqlBuilder lt(T)(string key,T value);
-    sqlBuilder ge(T)(string key,T value);
-    sqlBuilder le(T)(string key,T value);
-    sqlBuilder like(T)(string key,T value);
+    sqlBuilder eq(T)(string key,T value)
+	{
+		return whereImpl(key,CompareType.eq,value.to!string);
+	}
+    sqlBuilder ne(T)(string key,T value)
+	{
+		return whereImpl(key,CompareType.ne,value.to!string);
+	}
+    sqlBuilder gt(T)(string key,T value)
+	{
+		return whereImpl(key,CompareType.gt,value.to!string);
+	}
+    sqlBuilder lt(T)(string key,T value)
+	{
+		return whereImpl(key,CompareType.lt,value.to!string);
+	}
+    sqlBuilder ge(T)(string key,T value)
+	{
+		return whereImpl(key,CompareType.ge,value.to!string);
+	}
+    sqlBuilder le(T)(string key,T value)
+	{
+		return whereImpl(key,CompareType.le,value.to!string);
+	}
+    sqlBuilder like(T)(string key,T value)
+	{
+		return whereImpl(key,CompareType.like,value.to!string);
+	}
+    sqlBuilder where(T)(string key,CompareType type,T value)
+	{
+		return whereImpl(key,type,value.to!string);
+	}
+	sqlBuilder whereImpl(string key,CompareType type,string value);
     sqlBuilder where(MultiWhereExpression expr);
     MultiWhereExpression expr();
     sqlBuilder join(JoinMethod joinMethod,string table,string tablealias,string joinWhere);
@@ -37,7 +71,7 @@ interface sqlBuilder
     sqlBuilder offset(int offset);
     sqlBuilder limit(int limit);
     sqlBuilder values(string[string] arr);
-    sqlBuilder setValue(string key,string value);
+    sqlBuilder set(string key,string value);
     sqlBuilder setParameter(int index,string value);
     
     string tableName();
