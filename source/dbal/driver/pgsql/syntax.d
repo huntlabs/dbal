@@ -117,7 +117,7 @@ class PgSqlSyntax : SqlSyntax
 			case Method.Select:
 				str ~= Method.Select;
 				str ~= selectExpr();
-				str ~= " FROM " ~ _builder.tableName ~ " " ~ _builder.tableNameAlias ~ " ";
+				str ~= " FROM " ~ _builder.tableName ~ " ";
 				str ~= joinExpr();
 				str ~= whereExpr();
 				str ~= groupByExpr();
