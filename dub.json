@@ -1,9 +1,9 @@
 {
 	"name": "dbal",
 	"authors": [
-		"putao"
+		"huntlabs.cn"
 	],
-	"description": "a powerful query builder for the SQL language",
+	"description": "Database Abstraction Layer, can construct SQL statements.",
 	"copyright": "Copyright (C) 2015-2017 Shanghai Putao Technology Co., Ltd",
 	"license": "Apache-2.0"
 }
