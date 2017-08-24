@@ -21,9 +21,14 @@ class PgSqlBuilder : SqlBuilder
 	ValueExpression[] _valuesParameters;
 	JoinExpression[] _joins;
 
+    string formatTableName(string name)
+    {
+        return (tableName.split(".").length == 1) ? "public."~tableName : tableName;
+    }
+
 	SqlBuilder from(string tableName,string tableNameAlias = null)
 	{
-		_tableName = tableName;
+        _tableName = formatTableName(tableName);
 		_tableNameAlias = tableNameAlias.length ? tableNameAlias : tableName;
 		return this;
 	}
@@ -36,19 +41,19 @@ class PgSqlBuilder : SqlBuilder
 	}
 	SqlBuilder insert(string tableName)
 	{
-		_tableName = tableName;
+        _tableName = formatTableName(tableName);
 		_method = Method.Insert;
 		return this;
 	}
 	SqlBuilder update(string tableName)
 	{
-		_tableName = tableName;
+        _tableName = formatTableName(tableName);
 		_method = Method.Update;
 		return this;
 	}
 	SqlBuilder remove(string tableName)
 	{
-		_tableName = tableName;
+        _tableName = formatTableName(tableName);
 		_method = Method.Delete;
 		return this;
 	}
