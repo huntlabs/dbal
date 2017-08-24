@@ -13,4 +13,12 @@ class SqlFactory : IFactory
     {
         return new MySqlBuilder();
     }
+    SqlBuilder createPgSqlBuilder()
+    {
+        return new PgSqlBuilder();
+    }
+    SqlBuilder createSqliteBuilder()
+    {
+        return new SqliteBuilder();
+    }
 }
