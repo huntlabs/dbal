@@ -13,3 +13,6 @@ public import dbal.exception;
 
 public import dbal.driver.mysql.syntax;
 public import dbal.driver.mysql.builder;
+
+public import dbal.driver.pgsql.syntax;
+public import dbal.driver.pgsql.builder;
