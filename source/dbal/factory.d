@@ -9,8 +9,8 @@ interface IFactory
 
 class SqlFactory : IFactory
 {
-    sqlBuilder createMysqlBuilder()
+    SqlBuilder createMySqlBuilder()
     {
-        return new MysqlBuilder();
+        return new MySqlBuilder();
     }
 }

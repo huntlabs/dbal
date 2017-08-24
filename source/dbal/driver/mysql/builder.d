@@ -2,7 +2,7 @@ module dbal.driver.mysql.builder;
 
 import dbal;
 
-class MysqlBuilder : sqlBuilder 
+class MySqlBuilder : SqlBuilder 
 {
 	Method _method;
 	string _tableName;
@@ -21,58 +21,61 @@ class MysqlBuilder : sqlBuilder
 	ValueExpression[] _valuesParameters;
 	JoinExpression[] _joins;
 
-	sqlBuilder from(string tableName,string tableNameAlias = null)
+	SqlBuilder from(string tableName,string tableNameAlias = null)
 	{
 		_tableName = tableName;
 		_tableNameAlias = tableNameAlias.length ? tableNameAlias : tableName;
 		return this;
 	}
-	sqlBuilder selectImpl(string[] args)
+	SqlBuilder selectImpl(string[] args)
 	{
 		_selectKeys = null;
 		_selectKeys = args;
 		_method = Method.Select;
 		return this;
 	}
-	sqlBuilder insert(string tableName)
+	SqlBuilder insert(string tableName)
 	{
 		_tableName = tableName;
 		_method = Method.Insert;
 		return this;
 	}
-	sqlBuilder update(string tableName)
+	SqlBuilder update(string tableName)
 	{
 		_tableName = tableName;
 		_method = Method.Update;
 		return this;
 	}
-	sqlBuilder remove(string tableName)
+	SqlBuilder remove(string tableName)
 	{
 		_tableName = tableName;
 		_method = Method.Delete;
 		return this;
 	}
-	sqlBuilder where(string expression)
+	SqlBuilder where(string expression)
 	{
 		if(!expression.length)return this;
 		auto arr = split(strip(expression)," ");
-		if(arr.length != 3)return this;
-		auto expr = new WhereExpression(arr[0],arr[1],arr[2]);
-		_whereKeys ~= expr;
-		if(arr[2] == "?")_whereKeysParameters ~= expr;
+		if(arr.length != 3){
+			_multiWhereStr ~= expression;	
+		}else{
+			auto expr = new WhereExpression(arr[0],arr[1],arr[2]);
+			_whereKeys ~= expr;
+			if(arr[2] == "?")_whereKeysParameters ~= expr;
+		}
 		return this;
 	}
-	sqlBuilder whereImpl(string key,CompareType type,string value)
+	SqlBuilder whereImpl(string key,CompareType type,string value)
 	{
 		_whereKeys ~= new WhereExpression(key,type,value);
 		return this;
 	}
-	sqlBuilder where(MultiWhereExpression expr)
+	SqlBuilder where(MultiWhereExpression expr)
 	{
-		_multiWhereStr = expr.toString;
+		_multiWhereStr ~= expr.toString;
 		return this;
 	}
-	sqlBuilder having(string expression)
+	SqlBuilder having(string expression)
 	{
 		_having = expression;
 		return this;
@@ -81,77 +84,77 @@ class MysqlBuilder : sqlBuilder
 	{
 		return new MultiWhereExpression();
 	}
-	sqlBuilder join(JoinMethod joinMethod,string table,string tablealias,string joinWhere)
+	SqlBuilder join(JoinMethod joinMethod,string table,string tablealias,string joinWhere)
 	{
 		_joins ~= new JoinExpression(joinMethod,table,tablealias,joinWhere);
 		return this;
 	}
-	sqlBuilder join(JoinMethod joinMethod,string table,string joinWhere)
+	SqlBuilder join(JoinMethod joinMethod,string table,string joinWhere)
 	{
 		return join(joinMethod,table,table,joinWhere);
 	}
-	sqlBuilder innerJoin(string table,string tablealias,string joinWhere)
+	SqlBuilder innerJoin(string table,string tablealias,string joinWhere)
 	{
 		return join(JoinMethod.InnerJoin,table,tablealias,joinWhere);
 	}
-	sqlBuilder innerJoin(string table,string joinWhere)
+	SqlBuilder innerJoin(string table,string joinWhere)
 	{
 		return innerJoin(table,table,joinWhere);
 	}
-	sqlBuilder leftJoin(string table,string tableAlias,string joinWhere)
+	SqlBuilder leftJoin(string table,string tableAlias,string joinWhere)
 	{
 		return join(JoinMethod.LeftJoin,table,tableAlias,joinWhere);
 	}
-	sqlBuilder leftJoin(string table,string joinWhere)
+	SqlBuilder leftJoin(string table,string joinWhere)
 	{
 		return leftJoin(table,table,joinWhere);
 	}
-	sqlBuilder rightJoin(string table,string tableAlias,string joinWhere)
+	SqlBuilder rightJoin(string table,string tableAlias,string joinWhere)
 	{
         return join(JoinMethod.RightJoin,table,tableAlias,joinWhere);
 	}
-	sqlBuilder rightJoin(string table,string joinWhere)
+	SqlBuilder rightJoin(string table,string joinWhere)
 	{
         return rightJoin(table,table,joinWhere);
 	}
-	sqlBuilder fullJoin(string table,string tableAlias,string joinWhere)
+	SqlBuilder fullJoin(string table,string tableAlias,string joinWhere)
 	{
 		return join(JoinMethod.FullJoin,table,tableAlias,joinWhere);
 	}
-	sqlBuilder fullJoin(string table,string joinWhere)
+	SqlBuilder fullJoin(string table,string joinWhere)
 	{
 		return fullJoin(table,table,joinWhere);
 	}
-	sqlBuilder crossJoin(string table,string tableAlias)
+	SqlBuilder crossJoin(string table,string tableAlias)
 	{
 		return join(JoinMethod.CrossJoin,table,tableAlias,null);
 	}
-	sqlBuilder crossJoin(string table)
+	SqlBuilder crossJoin(string table)
 	{
 		return crossJoin(table,table);
 	}
-	sqlBuilder groupBy(string expression)
+	SqlBuilder groupBy(string expression)
 	{
 		_groupby = expression;
 		return this;
 	}
-	sqlBuilder orderBy (string key,string order = "DESC")
+	SqlBuilder orderBy (string key,string order = "DESC")
 	{
 		_orderByKey = key;
 		_order = order;
 		return this;
 	}
-	sqlBuilder offset(int offset)
+	SqlBuilder offset(int offset)
 	{
 		_offset = offset;
 		return this;
 	}
-	sqlBuilder limit(int limit)
+	SqlBuilder limit(int limit)
 	{
 		_limit = limit;
 		return this;
 	}
-	sqlBuilder values(string[string] arr)
+	SqlBuilder values(string[string] arr)
 	{
 		foreach(key,value;arr){
 			auto expr = new ValueExpression(key,value);
@@ -160,14 +163,14 @@ class MysqlBuilder : sqlBuilder
 		}
 		return this;
 	}
-	sqlBuilder set(string key,string value)
+	SqlBuilder set(string key,string value)
 	{
 		auto expr = new ValueExpression(key,value);
 		_values[key] = expr;
 		if(value == "?")_valuesParameters ~= expr;
 		return this;
 	}
-	sqlBuilder setParameter(int index,string value)
+	SqlBuilder setParameter(int index,string value)
 	{
 		if(_whereKeysParameters.length){
 			if(index > _whereKeysParameters.length - 1)
@@ -252,8 +255,8 @@ class MysqlBuilder : sqlBuilder
         return this._joins;
     }
 
-	MysqlSyntax build()
+	MySqlSyntax build()
 	{
-		return new MysqlSyntax(this);
+		return new MySqlSyntax(this);
 	}
 }

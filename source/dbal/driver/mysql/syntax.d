@@ -2,11 +2,11 @@ module dbal.driver.mysql.syntax;
 
 import dbal;
 
-class MysqlSyntax : sqlSyntax
+class MySqlSyntax : SqlSyntax
 {
-	sqlBuilder _builder;
+	SqlBuilder _builder;
 
-	this(MysqlBuilder builder)
+	this(MySqlBuilder builder)
 	{
 		this._builder = builder;
 	}

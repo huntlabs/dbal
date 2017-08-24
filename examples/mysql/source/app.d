@@ -7,11 +7,11 @@ void main()
 	writeln("Edit source/app.d to start your project.");
 
     SqlFactory sqlFactory = new SqlFactory();
-	sqlBuilder builder;
-    sqlSyntax syntax;
+	SqlBuilder builder;
+    SqlSyntax syntax;
 
 	//create SQL Query Builder
-	builder = sqlFactory.createMysqlBuilder();
+	builder = sqlFactory.createMySqlBuilder();
 
 	//builder a Query
     int id = 2680;
@@ -31,7 +31,7 @@ void main()
 
 
 	//insert 
-	builder = sqlFactory.createMysqlBuilder();
+	builder = sqlFactory.createMySqlBuilder();
 	syntax = builder.insert("users")
 		.values([
 			"id" : "?",
@@ -45,7 +45,7 @@ void main()
 	writeln(syntax);
 
 	//delete
-	builder = sqlFactory.createMysqlBuilder();
+	builder = sqlFactory.createMySqlBuilder();
 	syntax = builder.remove("users")
 		.where("id = ?")
 		.where("name = ?")
@@ -56,7 +56,7 @@ void main()
 	writeln(syntax);
 
 	//update
-	builder = sqlFactory.createMysqlBuilder();
+	builder = sqlFactory.createMySqlBuilder();
 	syntax = builder.update("users")
 		.set("name","?")
 		.setParameter(0,"\"viile\"")
@@ -66,7 +66,7 @@ void main()
 	writeln(syntax);
 
 	//Building Where Expressions 
-	builder = sqlFactory.createMysqlBuilder();
+	builder = sqlFactory.createMySqlBuilder();
 	builder.select("id", "name")
 		.from("users")
 		.where(
@@ -82,7 +82,7 @@ void main()
 	writeln(builder.build);
 	
     //GROUP BY and HAVING Clause
-	builder = sqlFactory.createMysqlBuilder();
+	builder = sqlFactory.createMySqlBuilder();
 	builder.select("DATE(last_login) as date", "COUNT(id) AS users")
 		.from("users")
 		.groupBy("DATE(last_login)")
@@ -90,7 +90,7 @@ void main()
 	writeln(builder.build);
 
 	//Table alias
-	builder = sqlFactory.createMysqlBuilder();
+	builder = sqlFactory.createMySqlBuilder();
 	builder.select("id","name")
 		.from("users","u")
 		.where("id = ?")
@@ -98,7 +98,7 @@ void main()
 	writeln(builder.build);
 
 	//Join Clauses
-	builder = sqlFactory.createMysqlBuilder();
+	builder = sqlFactory.createMySqlBuilder();
 	builder.select("u.id","u.username","p.name")
 		.from("users","u")
 		.leftJoin("phone","p","p.uid = u.id")
@@ -107,7 +107,7 @@ void main()
 	writeln(builder.build);
 
 	//Limit Clause
-	builder = sqlFactory.createMysqlBuilder();
+	builder = sqlFactory.createMySqlBuilder();
 	builder.select("u.id","u.username","p.name")
 		.from("users","u")
 		.leftJoin("phone","p","p.uid = u.id")
