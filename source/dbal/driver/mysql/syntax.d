@@ -107,6 +107,11 @@ class MySqlSyntax : SqlSyntax
 		}
 		return "(" ~ keys[0.. $-1] ~ ") VALUES("~ values[0..$-1]  ~")";
 	}
+	
+	string autoIncreaseExpr()
+	{
+		return "";
+	}
 
 	override string toString()
 	{

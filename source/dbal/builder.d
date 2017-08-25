@@ -74,6 +74,8 @@ interface SqlBuilder
     SqlBuilder set(string key,string value);
     SqlBuilder setParameter(int index,string value);
     
+	SqlBuilder setAutoIncrease(string key);
+    
     string tableName();
     string tableNameAlias();
     Method method();
@@ -88,6 +90,7 @@ interface SqlBuilder
     WhereExpression[] whereKeys();
     ValueExpression[string] values();
     JoinExpression[] joins();
+	string getAutoIncrease();
     
     SqlSyntax build();
 }

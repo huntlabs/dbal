@@ -96,6 +96,11 @@ class PgSqlSyntax : SqlSyntax
 		return set;
 	}
 
+	string autoIncreaseExpr()
+	{
+		return _builder.getAutoIncrease.length ? " returning " ~ _builder.getAutoIncrease : "";
+	}
+
 	string insertExpr()
 	{
 		if(!_builder.values.length) throw new DbalException("query build insert have not values");
@@ -142,6 +147,7 @@ class PgSqlSyntax : SqlSyntax
 			case Method.Insert:
 				str ~= Method.Insert ~ " into " ~ _builder.tableName;
 				str ~= insertExpr();
+				str ~= autoIncreaseExpr();
 				break;
 			default:
 				throw new DbalException("query build method not found");

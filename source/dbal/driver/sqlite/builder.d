@@ -21,6 +21,8 @@ class SqliteBuilder : SqlBuilder
 	ValueExpression[] _valuesParameters;
 	JoinExpression[] _joins;
 
+	string _autoIncreaseKey;
+
 	SqlBuilder from(string tableName,string tableNameAlias = null)
 	{
 		_tableName = tableName;
@@ -184,6 +186,16 @@ class SqliteBuilder : SqlBuilder
 		return this;
 	}
 
+	SqlBuilder setAutoIncrease(string key)
+	{
+		_autoIncreaseKey = key;
+		return this;
+	}
+
+	string getAutoIncrease()
+	{
+		return _autoIncreaseKey;
+	}
 
 	string tableName()
 	{

@@ -21,7 +21,9 @@ class PgSqlBuilder : SqlBuilder
 	ValueExpression[] _valuesParameters;
 	JoinExpression[] _joins;
 
-    string formatTableName(string name)
+	string _autoIncreaseKey;
+
+    string formatTableName(string tableName)
     {
         return (tableName.split(".").length == 1) ? "public."~tableName : tableName;
     }
@@ -189,6 +191,16 @@ class PgSqlBuilder : SqlBuilder
 		return this;
 	}
 
+	SqlBuilder setAutoIncrease(string key)
+	{
+		_autoIncreaseKey = key;
+		return this;
+	}
+
+	string getAutoIncrease()
+	{
+		return _autoIncreaseKey;
+	}
 
 	string tableName()
 	{

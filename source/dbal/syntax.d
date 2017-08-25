@@ -15,5 +15,6 @@ interface SqlSyntax
 	string offsetExpr();
 	string setExpr();
 	string insertExpr();
+	string autoIncreaseExpr();
 }
 
