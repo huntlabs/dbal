@@ -147,6 +147,9 @@ class SqliteSyntax : SqlSyntax
 				str ~= Method.Insert ~ " " ~ _builder.tableName;
 				str ~= insertExpr();
 				break;
+			case Method.Count:
+				str ~= Method.Count ~ _builder.tableName ~ whereExpr(); 
+				break;
 			default:
 				throw new DbalException("query build method not found");
 		}

@@ -13,7 +13,8 @@ enum Method : string {
     Select = " SELECT ",
     Insert = " INSERT ",
     Update = " UPDATE ",
-    Delete = " DELETE FROM"
+    Delete = " DELETE FROM",
+	Count = " SELECT count(*) FROM "
 }
 enum Relation : string {
     And = " AND ", 

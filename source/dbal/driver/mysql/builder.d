@@ -36,6 +36,11 @@ class MySqlBuilder : SqlBuilder
 		_method = Method.Select;
 		return this;
 	}
+	SqlBuilder count()
+	{
+		_method = Method.Count;
+		return this;
+	}
 	SqlBuilder insert(string tableName)
 	{
 		_tableName = tableName;
