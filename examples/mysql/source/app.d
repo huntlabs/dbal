@@ -65,6 +65,21 @@ void main()
 		.limit(10).build();
 	writeln(syntax);
 
+    //count
+    builder = sqlFactory.createMySqlBuilder();
+    syntax = builder.from("users").count()
+		.where(
+			builder.expr().andX(
+				builder.expr().eq("username", "\"test\""),
+				builder.expr().eq("email", "\"test@putao.com\""),
+				builder.expr().orX(
+					builder.expr().eq("role", "\"test\""),
+					builder.expr().eq("public", "\"test@putao.com\""),
+				)
+			)
+		).build();
+    writeln(syntax);
+
 	//Building Where Expressions 
 	builder = sqlFactory.createMySqlBuilder();
 	builder.select("id", "name")
