@@ -18,6 +18,7 @@ interface SqlBuilder
     SqlBuilder update(string tableName);
     SqlBuilder remove(string tableName);
     SqlBuilder where(string expression);
+    alias total = count;
     SqlBuilder count();
     SqlBuilder having(string expression);
     SqlBuilder eq(T)(string key,T value)
