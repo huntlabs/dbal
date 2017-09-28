@@ -68,13 +68,13 @@ class SqliteSyntax : SqlSyntax
 	}
 	string limitExpr()
 	{
-		if(_builder.limit)
+		if(_builder.limit >= 0)
 			return " LIMIT " ~ (_builder.limit).to!string;
 		return null;
 	}
 	string offsetExpr()
 	{
-		if(_builder.offset) 
+		if(_builder.offset >= 0) 
 			return " OFFSET " ~ (_builder.offset).to!string;
 		return null;
 	}
