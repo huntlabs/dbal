@@ -11,7 +11,7 @@ enum JoinMethod : string {
 }
 enum Method : string {
     Select = " SELECT ",
-    Insert = " INSERT ",
+    Insert = " INSERT INTO ",
     Update = " UPDATE ",
     Delete = " DELETE FROM",
 	Count = " SELECT count(*) FROM "

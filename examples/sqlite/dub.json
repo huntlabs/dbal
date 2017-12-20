@@ -1,7 +1,7 @@
 {
     "name": "example",
     "authors": [
-        "root"
+        "viile"
     ],
     "dependencies": {
         "dbal": {"path":"../../"}
@@ -14,7 +14,7 @@
         {
             "name": "default",
             "subConfigurations": {
-                "dbal": "mysql"
+                "database": "sqlite"
             }
         }
     ]
