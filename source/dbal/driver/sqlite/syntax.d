@@ -144,7 +144,7 @@ class SqliteSyntax : SqlSyntax
 				str ~= limitExpr();
 				break;
 			case Method.Insert:
-				str ~= Method.Insert ~ " " ~ _builder.tableName;
+				str ~= Method.Insert ~ "INTO " ~ _builder.tableName;
 				str ~= insertExpr();
 				break;
 			case Method.Count:
